@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>737 MAX: You’re in the room</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#E8E4DA;--card:#FEFDF8;--ink:#1A2230;--mute:#5F6673;--rust:#A8432F;--onrust:#fff;--blue:#2F6BB5;--line:#D9D4C7;--sky:#DCE5F2;--plane:#11225A;--badge:#11225A;--badgeink:#fff;--sun:#F2B84B;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1A44;--card:#17275E;--ink:#F4F2EC;--mute:#A9B4D8;--rust:#E08A6E;--onrust:#0E1A44;--blue:#7FB0F0;--line:#2A3C80;--sky:#1F3578;--plane:#F4F2EC;--badge:#F4F2EC;--badgeink:#0E1A44;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1A44;--card:#17275E;--ink:#F4F2EC;--mute:#A9B4D8;--rust:#E08A6E;--onrust:#0E1A44;--blue:#7FB0F0;--line:#2A3C80;--sky:#1F3578;--plane:#F4F2EC;--badge:#F4F2EC;--badgeink:#0E1A44;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 clamp(17px,2vw,23px)/1.5 Inter,system-ui,Arial,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:18px 20px 28px}
+header{display:flex;justify-content:space-between;align-items:center;color:var(--mute);font-weight:600;font-size:.8em}
+.dots{display:flex;gap:8px;align-items:center;margin:10px 0 14px;font-size:.75em;color:var(--mute);font-weight:600;min-height:20px}
+.dots i{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);display:inline-block}
+.dots i.cur{border-color:var(--blue)}.dots i.ok{background:var(--blue);border-color:var(--blue)}.dots i.bad{background:var(--rust);border-color:var(--rust)}
+.card{background:var(--card);border-radius:18px;border-top:7px solid var(--rust);padding:20px 22px 24px}
+.gfx svg{width:100%;max-height:190px;display:block;border-radius:12px}
+.sv{font:600 12.5px Inter,Arial,sans-serif;fill:var(--ink)}
+.lab{margin:16px 0 2px;color:var(--rust);font-weight:700;font-size:.8em;text-transform:uppercase;letter-spacing:.04em}
+h1{font:700 clamp(28px,4.4vw,46px)/1.1 "Source Serif 4",Georgia,serif;margin:0 0 8px}
+p{margin:0 0 16px;max-width:62ch}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.opts{grid-template-columns:1fr}}
+.opt{display:flex;gap:14px;align-items:center;text-align:left;font:inherit;font-weight:600;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt b{flex:none;width:38px;height:38px;border-radius:50%;background:var(--badge);color:var(--badgeink);display:grid;place-items:center;font-size:1.05em}
+.opt.sel{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue)}.opt.dim{opacity:.45}
+button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.res{margin-top:16px;border-left:6px solid var(--rust);padding:2px 0 2px 16px}
+.chip{display:inline-block;background:var(--sky);border-radius:99px;padding:3px 12px;font-size:.75em;font-weight:600;margin-right:12px}
+.go{font:700 1em Inter,sans-serif;background:var(--rust);color:var(--onrust);border:0;border-radius:12px;padding:12px 24px;cursor:pointer;margin-top:6px}
+.rec{list-style:none;padding:0;margin:0 0 16px;font-size:.85em}.rec li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.bad-t{color:var(--rust);font-weight:700}.ok-t{color:var(--blue);font-weight:700}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 14px;font-weight:700}
+.flow span.chip{margin:0;background:var(--badge);color:var(--badgeink)}
+footer{margin-top:14px;color:var(--mute);font-size:.7em}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="plane" viewBox="0 0 160 50"><path d="M6 27c2-9 12-11 28-11h92c18 0 30 4 32 11-2 7-14 11-32 11H34C18 38 8 36 6 27z" fill="currentColor"/><path d="M120 17l14-15h12l-6 15z" fill="currentColor"/><path d="M58 33l30 15h14L86 33z" fill="currentColor"/><ellipse cx="80" cy="41" rx="12" ry="6.5" fill="currentColor" stroke="var(--sky)" stroke-width="1.5"/></symbol></svg>
+<div class="wrap">
+<header><span>737 MAX: you’re in the room</span><span id="t">0:00</span></header>
+<div class="dots" id="dots"></div>
+<main id="app"></main>
+<footer>Raise hands for A or B, then click the majority (or press A / B, Enter for next, R to restart). You play a composite character; events and figures come from the public record.</footer>
+</div>
+<script>
+var bg='<rect width="400" height="150" rx="12" fill="var(--sky)"/>';
+var G=[
+'<svg viewBox="0 0 400 150" role="img" aria-label="Airbus A320neo and an older Boeing 737">'+bg+'<use href="#plane" x="24" y="18" width="150" height="47" style="color:var(--blue)"/><text class="sv" x="24" y="86">Airbus A320neo</text><use href="#plane" x="226" y="66" width="150" height="47" style="color:var(--plane)"/><text class="sv" x="226" y="134">Boeing 737 (1960s design)</text></svg>',
+'<svg viewBox="0 0 400 150" role="img" aria-label="A calendar with a delivery deadline">'+bg+'<rect x="40" y="26" width="130" height="100" rx="12" fill="var(--card)" stroke="var(--line)"/><rect x="40" y="26" width="130" height="28" rx="12" fill="var(--rust)"/><text class="sv" x="105" y="46" text-anchor="middle" style="fill:var(--onrust)">DELIVERY</text><text class="sv" x="105" y="95" text-anchor="middle" style="font-size:30px">On time?</text><use href="#plane" x="214" y="52" width="150" height="47" style="color:var(--plane)"/><text class="sv" x="214" y="124">Airlines are waiting</text></svg>',
+'<svg viewBox="0 0 400 150" role="img" aria-label="An engineer raises a concern">'+bg+'<rect x="22" y="16" width="250" height="54" rx="14" fill="var(--card)" stroke="var(--line)"/><text class="sv" x="38" y="38">“I’m worried about how this</text><text class="sv" x="38" y="57">flight-control system behaves.”</text><rect x="140" y="82" width="238" height="54" rx="14" fill="var(--rust)"/><text class="sv" x="156" y="104" style="fill:var(--onrust)">It passed earlier reviews.</text><text class="sv" x="156" y="123" style="fill:var(--onrust)">More testing = more delay.</text></svg>',
+'<svg viewBox="0 0 400 150" role="img" aria-label="One sensor feeds the system, and the FAA reviews the paperwork">'+bg+'<circle cx="70" cy="62" r="18" fill="var(--rust)"/><circle cx="130" cy="62" r="18" fill="none" stroke="var(--mute)" stroke-dasharray="4 3" stroke-width="2"/><text class="sv" x="40" y="112">System reads one sensor</text><rect x="250" y="38" width="120" height="50" rx="10" fill="var(--card)" stroke="var(--line)"/><text class="sv" x="310" y="68" text-anchor="middle">FAA review</text><path d="M196 63h44" stroke="var(--mute)" stroke-width="3"/><path d="M238 54l11 9-11 9z" fill="var(--mute)"/></svg>',
+'<svg viewBox="0 0 400 150" role="img" aria-label="A plane ready for delivery">'+bg+'<rect x="0" y="108" width="400" height="42" fill="var(--line)"/><use href="#plane" x="110" y="60" width="180" height="56" style="color:var(--plane)"/><text class="sv" x="24" y="30">Ready for service?</text></svg>',
+'<svg viewBox="0 0 400 150" role="img" aria-label="A plane descending">'+bg+'<path d="M30 36Q200 44 340 128" stroke="var(--rust)" stroke-width="3" stroke-dasharray="6 5" fill="none"/><g transform="rotate(24 200 76)"><use href="#plane" x="120" y="52" width="150" height="47" style="color:var(--plane)"/></g><text class="sv" x="24" y="26">Oct 2018 and Mar 2019</text></svg>',
+'<svg viewBox="0 0 400 150" role="img" aria-label="A plane flying level at sunrise">'+bg+'<circle cx="320" cy="48" r="22" fill="var(--sun)"/><use href="#plane" x="110" y="56" width="170" height="53" style="color:var(--plane)"/><text class="sv" x="24" y="30">Late. Costly. Safe.</text></svg>'];
+/* p:1 = gave in to pressure, p:0 = held the line. Which option is which alternates on purpose. */
+var S=[
+{y:'2011',l:'The market',h:'Airbus is winning orders',c:'Market pressure',
+ t:'Airbus’s new A320neo is landing big orders, including American Airlines. You run Boeing’s 737 program. The CEO wants a response, fast.',
+ o:[{x:'Modify the existing 737. Keep cost and time down.',p:1,r:'Cheaper and faster. And you’ve promised airlines that pilots won’t need new simulator training.'},
+    {x:'Build a new plane. Take the time to get it right.',p:0,r:'Years and billions more. Some customers may walk. But you start from a clean design.'}]},
+{y:'2012 to 2016',l:'The schedule',h:'The plane is behind',c:'Goal setting and incentives',
+ t:'Airlines expect deliveries. A delay could cost major customers and jobs, and your team’s bonus is tied to the schedule.',
+ o:[{x:'Delay delivery. Give the team more time.',p:0,r:'Customers grumble and the bonus shrinks. The team gets the time it asked for.'},
+    {x:'Keep the deadline. Fix remaining issues as they come.',p:1,r:'It sounds like normal project management. The risks begin to stack up quietly.'}]},
+{y:'2016',l:'The warning',h:'An engineer speaks up',c:'Moral disengagement',
+ t:'An engineer raises a concern about a new flight-control system. It has passed several reviews. More testing could delay the project.',
+ o:[{x:'Continue testing while the team monitors the issue.',p:1,r:'The concern wasn’t proven, so it’s easy to move on. Uncertainty becomes “acceptable risk.”'},
+    {x:'Stop the process. Investigate the concern.',p:0,r:'Schedule slips again, and some colleagues are annoyed. But the concern gets a real answer.'}]},
+{y:'2017',l:'The paperwork',h:'The system relies on one sensor',c:'Weak oversight',
+ t:'You learn the system reads a single sensor. The FAA is already reviewing the plane, and a full review could delay certification.',
+ o:[{x:'Share the full details. Request another review.',p:0,r:'Certification slows. But the regulator sees what you actually built.'},
+    {x:'Submit the current paperwork. Keep certification moving.',p:1,r:'“They’re already reviewing it.” Approval comes fast, and the regulator never sees the full picture.'}]},
+{y:'Before delivery',l:'The final call',h:'Leadership wants approval',c:'Management decisions',
+ t:'The plane is ready to enter service. Remaining concerns could be resolved, but only by missing the delivery target.',
+ o:[{x:'Approve delivery. Keep improving it afterward.',p:1,r:'Unresolved issues now sound like “improvements.” The plane enters service.'},
+    {x:'Hold delivery until the concerns are resolved.',p:0,r:'A missed target and an angry boardroom. Pilots get a plane the team trusts.'}]}];
+var N=S.length,step=-1,picks=[],chosen=null,t0=0,iv=null;
+var app=document.getElementById('app'),dotsEl=document.getElementById('dots'),tEl=document.getElementById('t');
+function cut(){return picks.filter(Boolean).length}
+function drawDots(){dotsEl.innerHTML=step<0?'':S.map(function(_,i){return '<i class="'+(i<picks.length?'ok':(i===step?'cur':''))+'"></i>'}).join('')+'<span>Decision '+Math.min(step+1,N)+' of '+N+'</span>'}
+function tick(){var s=Math.floor((Date.now()-t0)/1000);tEl.textContent=Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
+function render(){
+ drawDots();
+ if(step<0){app.innerHTML='<section class="card"><div class="gfx">'+G[0]+'</div><div class="lab">Interactive, about 90 seconds</div><h1>You’re the program manager</h1><p>You are Alex Morgan, Boeing’s 737 MAX program manager, 2011. Five decisions. The room raises hands for A or B, and the majority rules. Can you avoid the scandal?</p><button class="go" data-start>Start</button></section>';return}
+ if(step<N){var s=S[step];
+  app.innerHTML='<section class="card"><div class="gfx">'+G[step]+'</div><div class="lab">'+s.y+' · '+s.l+'</div><h1>'+s.h+'</h1><p>'+s.t+'</p><div class="opts">'+s.o.map(function(o,i){return '<button class="opt" data-i="'+i+'"><b>'+'AB'[i]+'</b><span>'+o.x+'</span></button>'}).join('')+'</div><div id="res"></div></section>';return}
+ clearInterval(iv);
+ var n=cut(),bad=n>=3;
+ var rec=S.map(function(s,i){return '<li><span>'+s.y+' · '+s.l+'</span><span class="'+(picks[i]?'bad-t':'ok-t')+'">'+(picks[i]?'Gave in to pressure':'Held the line')+'</span></li>'}).join('');
+ var head=bad?'The scandal happens':'No scandal, but it cost you';
+ var body=bad?'No single decision caused it. Each one made the next easier to justify. Oct 29, 2018: Lion Air 610 crashes, 189 killed. Mar 10, 2019: Ethiopian Airlines 302 crashes, 157 killed. That’s 346 lives, and the MAX was grounded worldwide for about 20 months.'
+ :'The MAX launches late and over budget. Airbus wins some orders and your bonus takes a hit. But concerns were investigated, regulators saw the full design, and the plane was ready. In real life, the pressure won out instead: two planes crashed and 346 people died.';
+ app.innerHTML='<section class="card"><div class="gfx">'+G[bad?5:6]+'</div><div class="lab">The ending</div><h1>'+head+'</h1><p>'+body+'</p><ul class="rec">'+rec+'</ul><p><b>So what really happened?</b></p><div class="flow"><span class="chip">Market pressure</span>→<span class="chip">Management decisions</span>→<span class="chip">Weak oversight</span></div><button class="go" data-re>Play again</button></section>';
+}
+function start(){step=0;picks=[];chosen=null;t0=Date.now();clearInterval(iv);iv=setInterval(tick,500);tick();render()}
+function pick(i){if(chosen!==null||step<0||step>=N)return;chosen=i;var o=S[step].o[i];picks.push(o.p);
+ [].forEach.call(app.querySelectorAll('.opt'),function(b,k){b.classList.add(k===i?'sel':'dim');b.disabled=true});
+ document.getElementById('res').innerHTML='<div class="res"><p>'+o.r+'</p><span class="chip">'+S[step].c+'</span><button class="go" data-go>'+(step<N-1?'Next':'See what happens')+'</button></div>';drawDots()}
+function next(){step++;chosen=null;render();window.scrollTo(0,0)}
+function restart(){step=-1;picks=[];chosen=null;clearInterval(iv);tEl.textContent='0:00';render()}
+document.addEventListener('click',function(e){var el=e.target.closest('[data-i],[data-go],[data-start],[data-re]');if(!el)return;
+ if(el.hasAttribute('data-start'))start();else if(el.hasAttribute('data-re'))restart();else if(el.hasAttribute('data-go'))next();else pick(+el.getAttribute('data-i'))});
+document.addEventListener('keydown',function(e){var k=e.key.toLowerCase(),h=true;
+ if(step<0&&(k==='enter'||k===' '))start();
+ else if(step>=0&&step<N){if(chosen===null&&(k==='a'||k==='1'))pick(0);else if(chosen===null&&(k==='b'||k==='2'))pick(1);else if(chosen!==null&&(k==='enter'||k==='arrowright'||k===' '))next();else h=false}
+ else if(step===N&&k==='r')restart();else h=false;
+ if(h)e.preventDefault()});
+render();
+</script></body></html>
